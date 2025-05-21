@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MentalMate - Blog Kesehatan Mental</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #205781;
+      --secondary: #4F959D;
+      --accent: #98D2C0;
+      --light: #F6F8D5;
+      --primary-transparent: rgba(32, 87, 129, 0.9);
+      --dark-text: #333333;
+      --light-text: #ffffff;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      background-color: var(--light);
+      font-family: 'Poppins', sans-serif;
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+    
+    /* Utility Classes */
+    .bg-primary-custom {
+      background-color: var(--primary) !important;
+    }
+    
+    .bg-secondary-custom {
+      background-color: var(--secondary) !important;
+    }
+    
+    .bg-accent-custom {
+      background-color: var(--accent) !important;
+    }
+    
+    .bg-light-custom {
+      background-color: var(--light) !important;
+    }
+    
+    .text-primary-custom {
+      color: var(--primary) !important;
+    }
+    
+    .text-secondary-custom {
+      color: var(--secondary) !important;
+    }
+    
+    .btn-primary-custom {
+      background-color: var(--primary);
+      color: var(--light-text);
+      border: none;
+      transition: var(--transition);
+    }
+    
+    .btn-primary-custom:hover, .btn-primary-custom:focus {
+      background-color: #174563;
+      color: var(--light-text);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    
+    .btn-secondary-custom {
+      background-color: var(--secondary);
+      color: var(--light-text);
+      border: none;
+      transition: var(--transition);
+    }
+    
+    .btn-secondary-custom:hover, .btn-secondary-custom:focus {
+      background-color: #3e7a80;
+      color: var(--light-text);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    
+    /* Navbar */
+    .navbar {
+      box-shadow: var(--shadow);
+    }
+    
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    
+    /* Blog Header */
+    .blog-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--light-text);
+      padding: 4rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .blog-header-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      z-index: 1;
+    }
+    
+    .blog-header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Blog Card */
+    .blog-card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: var(--transition);
+      height: 100%;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent);
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+    
+    .blog-card-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .blog-card-body {
+      padding: 1.5rem;
+    }
+    
+    .blog-category {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--primary);
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .blog-date {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    
+    .blog-title {
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+    
+    /* Article Page */
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    
+    .article-image {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .article-meta {
+      margin-bottom: 1.5rem;
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    
+    .article-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .article-content h2 {
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .article-content h3 {
+      color: var(--secondary);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .article-content ul, .article-content ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Category Filter */
+    .category-filter {
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .filter-btn {
+      background-color: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 0.35rem 1rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    
+    .filter-btn:hover {
+      background-color: var(--primary);
+      color: #fff;
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary);
+      color: #fff;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    
+    .sidebar-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--accent);
+    }
+    
+    .sidebar-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .sidebar-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .sidebar-list a {
+      color: var(--dark-text);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .sidebar-list a:hover {
+      color: var(--secondary);
+    }
+    
+    /* Footer */
+    .footer {
+      background-color: var(--primary);
+      color: var(--light-text);
+      padding: 2rem 0;
+    }
+    
+    /* Pagination */
+    .pagination {
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    
+    .page-link {
+      color: var(--primary);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      margin: 0 3px;
+      border-radius: 5px;
+    }
+    
+    .page-link:hover {
+      background-color: var(--accent);
+      color: var(--primary);
+      border-color: var(--accent);
+    }
+    
+    .page-item.active .page-link {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Scrollbar customization */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .blog-header {
+        padding: 3rem 0 1.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .blog-header-content {
+        text-align: center;
+      }
+      
+      .blog-card-img {
+        height: 180px;
+      }
+      
+      .sidebar {
+        margin-top: 2rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .blog-header {
+        padding: 2rem 0 1rem;
+      }
+      
+      .blog-card-img {
+        height: 160px;
+      }
+      
+      .article-image {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('index') }}">MentalMate</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}#home">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}#fitur">Fitur</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}#manfaat">Manfaat</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}#chatbot">Chatbot</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Blog</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Header -->
+  <header class="blog-header">
+    <div class="blog-header-pattern"></div>
+    <div class="container blog-header-content">
+      <h1 class="display-5 fw-bold mb-3">Blog MentalMate</h1>
+      <p class="fs-5 mb-4">Artikel dan edukasi untuk kesehatan mental dan kesejahteraan psikologis</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <!-- Blog Content -->
+        <div class="col-lg-8">
+          <!-- Category Filter -->
+          <div class="category-filter">
+            <button class="filter-btn active">Semua</button>
+            <button class="filter-btn">Kesehatan Mental</button>
+            <button class="filter-btn">Kecanduan</button>
+            <button class="filter-btn">Judi Online</button>
+            <button class="filter-btn">Mindfulness</button>
+            <button class="filter-btn">Tips Kesehatan</button>
+          </div>
+
+          <!-- Blog Grid -->
+          <div class="row g-4">
+            <!-- Article 1 - Dampak Judi Online -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Judi Online</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 15 Mei 2025</span>
+                  <h3 class="blog-title h5">Dampak Judi Online pada Kesehatan Mental dan Cara Mengatasinya</h3>
+                  <p class="mb-3">Judi online dapat menimbulkan dampak serius pada kesehatan mental termasuk kecemasan, depresi, dan kecanduan. Pelajari tanda-tanda dan cara mengatasinya.</p>
+                  <a href="#article-judi-online" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Article 2 - Mengenali Kecanduan -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Kecanduan</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 10 Mei 2025</span>
+                  <h3 class="blog-title h5">Mengenali Tanda-tanda Kecanduan dalam Diri dan Orang Terdekat</h3>
+                  <p class="mb-3">Kecanduan dapat bersembunyi di balik kebiasaan sehari-hari. Pelajari cara mengenali tanda-tanda peringatan dini dan pentingnya intervensi awal.</p>
+                  <a href="#article-kecanduan" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Article 3 - Teknik Mindfulness -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Mindfulness</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 5 Mei 2025</span>
+                  <h3 class="blog-title h5">5 Teknik Mindfulness untuk Mengatasi Kecemasan dan Stres</h3>
+                  <p class="mb-3">Praktik mindfulness bisa menjadi alat efektif untuk mengelola kecemasan dan stres. Pelajari 5 teknik sederhana yang dapat dilakukan sehari-hari.</p>
+                  <a href="#article-mindfulness" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Article 4 - Memahami Gangguan Kecemasan -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Kesehatan Mental</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 1 Mei 2025</span>
+                  <h3 class="blog-title h5">Memahami Gangguan Kecemasan: Jenis, Gejala, dan Penanganannya</h3>
+                  <p class="mb-3">Gangguan kecemasan adalah kondisi umum yang dapat mempengaruhi kualitas hidup. Pelajari berbagai jenis, gejala, dan pilihan pengobatan yang tersedia.</p>
+                  <a href="#article-kecemasan" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Article 5 - Rehabilitasi -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Kecanduan</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 25 April 2025</span>
+                  <h3 class="blog-title h5">Perjalanan Rehabilitasi: Tahapan Pemulihan dari Kecanduan</h3>
+                  <p class="mb-3">Pemulihan dari kecanduan adalah sebuah perjalanan, bukan tujuan. Pelajari tahapan-tahapan penting dalam proses rehabilitasi dan faktor pendukung keberhasilan.</p>
+                  <a href="#article-rehabilitasi" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Article 6 - Dukungan Keluarga -->
+            <div class="col-md-6">
+              <div class="blog-card">
+                <div class="blog-card-img" style="background-image: url('/api/placeholder/800/500');"></div>
+                <div class="blog-card-body">
+                  <span class="blog-category">Kesehatan Mental</span>
+                  <span class="blog-date"><i class="far fa-calendar-alt me-1"></i> 20 April 2025</span>
+                  <h3 class="blog-title h5">Peran Dukungan Keluarga dalam Kesehatan Mental</h3>
+                  <p class="mb-3">Dukungan keluarga sangat penting dalam proses pemulihan kesehatan mental. Pelajari cara mendukung anggota keluarga yang sedang berjuang dengan masalah kesehatan mental.</p>
+                  <a href="#article-dukungan-keluarga" class="btn btn-sm btn-primary-custom">Baca Selengkapnya</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <nav aria-label="Pagination" class="mt-5">
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <!-- Search -->
+          <div class="sidebar mb-4">
+            <h4 class="sidebar-title">Cari Artikel</h4>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Kata kunci...">
+              <button class="btn btn-primary-custom" type="button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Popular Articles -->
+          <div class="sidebar mb-4">
+            <h4 class="sidebar-title">Artikel Populer</h4>
+            <ul class="sidebar-list">
+              <li>
+                <a href="#article-judi-online">Dampak Judi Online pada Kesehatan Mental</a>
+                <small class="d-block text-muted">15 Mei 2025</small>
+              </li>
+              <li>
+                <a href="#article-kecanduan">Mengenali Tanda-tanda Kecanduan</a>
+                <small class="d-block text-muted">10 Mei 2025</small>
+              </li>
+              <li>
+                <a href="#article-mindfulness">5 Teknik Mindfulness untuk Mengatasi Kecemasan</a>
+                <small class="d-block text-muted">5 Mei 2025</small>
+              </li>
+              <li>
+                <a href="#article-kecemasan">Memahami Gangguan Kecemasan</a>
+                <small class="d-block text-muted">1 Mei 2025</small>
+              </li>
+              <li>
+                <a href="#article-dukungan-keluarga">Peran Dukungan Keluarga dalam Kesehatan Mental</a>
+                <small class="d-block text-muted">20 April 2025</small>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Categories -->
+          <div class="sidebar mb-4">
+            <h4 class="sidebar-title">Kategori</h4>
+            <ul class="sidebar-list">
+              <li><a href="#">Kesehatan Mental <span class="badge bg-light text-dark">12</span></a></li>
+              <li><a href="#">Kecanduan <span class="badge bg-light text-dark">8</span></a></li>
+              <li><a href="#">Judi Online <span class="badge bg-light text-dark">5</span></a></li>
+              <li><a href="#">Mindfulness <span class="badge bg-light text-dark">7</span></a></li>
+              <li><a href="#">Tips Kesehatan <span class="badge bg-light text-dark">10</span></a></li>
+              <li><a href="#">Motivasi <span class="badge bg-light text-dark">6</span></a></li>
+            </ul>
+          </div>
+
+          <!-- Resources -->
+          <div class="sidebar mb-4">
+            <h4 class="sidebar-title">Sumber Bantuan</h4>
+            <div class="d-grid gap-2">
+              <a href="#" class="btn btn-outline-secondary">
+                <i class="fas fa-phone-alt me-2"></i>Hotline Kesehatan Mental
+              </a>
+              <a href="#" class="btn btn-outline-secondary">
+                <i class="fas fa-user-md me-2"></i>Konsultasi dengan Profesional
+              </a>
+              <a href="#" class="btn btn-outline-secondary">
+                <i class="fas fa-book me-2"></i>Buku & Panduan Self-Help
+              </a>
+              <a href="#" class="btn btn-outline-secondary">
+                <i class="fas fa-hands-helping me-2"></i>Support Group
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Article Content - Judi Online -->
+  <section id="article-judi-online" class="py-5 bg-light-custom d-none">
+    <div class="container">
+      <div class="article-container">
+        <a href="#" class="btn btn-sm btn-outline-secondary mb-3" id="back-to-blog">
+          <i class="fas fa-arrow-left me-1"></i> Kembali ke Blog
+        </a>
+        <img src="/api/placeholder/800/400" alt="Dampak Judi Online" class="article-image">
+        <span class="blog-category">Judi Online</span>
+        <h1 class="text-primary-custom mb-3">Dampak Judi Online pada Kesehatan Mental dan Cara Mengatasinya</h1>
+        <div class="article-meta">
+          <i class="far fa-calendar-alt me-1"></i> 15 Mei 2025
+          <i class="far fa-user ms-3 me-1"></i> Dr. Anita Wijaya
+          <i class="far fa-clock ms-3 me-1"></i> 8 menit membaca
+        </div>
+        <div class="article-content">
+          <p>Perkembangan teknologi dan akses internet yang semakin luas telah membuka pintu bagi berbagai aktivitas online, termasuk judi online. Meskipun mungkin tampak sebagai hiburan yang tidak berbahaya, judi online dapat menimbulkan dampak serius bagi kesehatan mental. Artikel ini akan membahas dampak judi online terhadap kesehatan mental dan memberikan strategi untuk mengatasinya.</p>
+
+          <h2>Dampak Judi Online pada Kesehatan Mental</h2>
+          
+          <h3>1. Kecanduan dan Perilaku Kompulsif</h3>
+          <p>Judi online dirancang untuk membuat pengguna terus bermain. Sistem hadiah acak dan notifikasi yang terus muncul dapat memicu kecanduan dan perilaku kompulsif, yang pada akhirnya mengganggu keseharian dan kesehatan emosional.</p>
+          
+          <h3>2. Stres dan Kecemasan</h3>
+          <p>Tuntutan untuk menang dan kekhawatiran akan kerugian finansial menimbulkan tingkat stres yang tinggi. Hal ini sering kali berujung pada kecemasan yang berkepanjangan dan gangguan tidur.</p>
+
+          <h3>3. Isolasi Sosial</h3>
+          <p>Waktu yang dihabiskan di dunia virtual dapat mengurangi interaksi dengan keluarga dan teman, menyebabkan perasaan kesepian dan isolasi yang berdampak negatif pada kesehatan mental.</p>
+
+          <h2>Strategi Mengatasi Dampak Judi Online</h2>
+          
+          <h3>1. Meningkatkan Kesadaran Diri</h3>
+          <p>Mengenali tanda-tanda awal kecanduan dan dampak negatifnya adalah langkah pertama untuk mencegahnya berkembang lebih jauh. Refleksi diri dan evaluasi kebiasaan bermain sangat penting.</p>
+          
+          <h3>2. Mencari Dukungan</h3>
+          <p>Bicaralah dengan keluarga, teman, atau profesional kesehatan mental. Dukungan sosial dapat membantu mengurangi tekanan dan menyediakan solusi yang konstruktif.</p>
+          
+          <h3>3. Menerapkan Batasan Waktu</h3>
+          <p>Menetapkan batasan waktu dalam mengakses situs judi online dapat mengurangi risiko kecanduan dan membantu menjaga keseimbangan kehidupan.</p>
+
+          <p>Kesehatan mental merupakan aset berharga yang memerlukan perhatian. Dengan pengelolaan yang tepat, dampak negatif dari judi online dapat diminimalisir sehingga seseorang dapat menjalani kehidupan yang lebih seimbang dan bermakna.</p>
+        </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bootstrap JS Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <script>
+          // Toggle between blog listing and article view
+          document.getElementById('back-to-blog').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Show main blog grid
+            document.querySelector('section.py-5').classList.remove('d-none');
+            // Hide article view
+            document.getElementById('article-judi-online').classList.add('d-none');
+          });
+          
+          // Attach event to all "Baca Selengkapnya" buttons to show corresponding article
+          document.querySelectorAll('.btn-primary-custom[href^="#article-"]').forEach(function(button) {
+            button.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Hide blog grid
+            document.querySelector('section.py-5').classList.add('d-none');
+            // Extract target article selector
+            var targetSelector = button.getAttribute('href');
+            var targetArticle = document.querySelector(targetSelector);
+            if (targetArticle) {
+            targetArticle.classList.remove('d-none');
+            }
+                });
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const navLinks = document.querySelectorAll(".nav-link");
+
+                navLinks.forEach(link => {
+                    link.addEventListener("click", function () {
+                        // Hapus kelas "active" dari semua link
+                        navLinks.forEach(nav => nav.classList.remove("active"));
+
+                        // Tambahkan kelas "active" ke link yang diklik
+                        this.classList.add("active");
+                    });
+                });
+            });        
+
+            // Make the navbar change color on scroll
+            window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-sm');
+            }
+            });
+        </script>
+      </body>
+      </html>
