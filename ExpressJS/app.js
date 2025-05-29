@@ -14,6 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/swagger.json', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/swagger.json'));
 });
@@ -21,16 +23,20 @@ app.get('/swagger.json', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/checkin', checkinRoutes);
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(null, {
-  swaggerUrl: '/swagger.json'
-}));
+app.use(
+  '/api/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerUrl: '/swagger.json',
+  })
+);
 
-mongoose.connect(process.env.MONGO_URI, {})
+mongoose
+  .connect(process.env.MONGO_URI, {})
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));
 
 const PORT = process.env.PORT || 3000;
-
 if (require.main === module) {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
