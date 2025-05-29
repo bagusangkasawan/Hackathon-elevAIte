@@ -14,13 +14,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/swagger.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/swagger.json'));
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/checkin', checkinRoutes);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(null, {
-  swaggerUrl: '/swagger.json' 
+  swaggerUrl: '/swagger.json'
 }));
 
 mongoose.connect(process.env.MONGO_URI, {})
