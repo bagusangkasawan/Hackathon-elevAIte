@@ -5,7 +5,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const checkinRoutes = require('./routes/checkinRoutes');
 const swaggerUi = require('swagger-ui-express');
-const path = require('path');
+const swaggerDocument = require('./public/swagger.json');
 const serverless = require('serverless-http');
 
 dotenv.config();
@@ -13,10 +13,6 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-const swaggerDocument = require(path.join(__dirname, 'public/swagger.json'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/checkin', checkinRoutes);
