@@ -4,8 +4,8 @@
   "description": "Backend Express.js untuk login, register, dan daily checkin dengan analisis mood menggunakan OpenAI",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "express",
