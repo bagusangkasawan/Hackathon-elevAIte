@@ -2,6 +2,9 @@ const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const serverless = require('serverless-http');
+const dotenv = require('dotenv');
+
+dotenv.config();
 const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000/api';
 
 const app = express();
