@@ -4,8 +4,6 @@
     { "src": "app.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "app.js" },
-    { "src": "/docs", "dest": "public/swagger.html" },
-    { "src": "/swagger.json", "dest": "public/swagger.json" }
+    { "src": "/(.*)", "dest": "app.js" }
   ]
 }
