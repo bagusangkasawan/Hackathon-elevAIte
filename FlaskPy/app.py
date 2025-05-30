@@ -41,6 +41,10 @@ def index():
 def blog():
     return render_template("blog.html")
 
+@app.route("/checkin")
+def checkin():
+    return render_template("checkin.html")
+
 @app.route("/generate", methods=["POST"])
 def generate():
     user_input = request.form.get("user_input", "")
@@ -154,5 +158,5 @@ class ChatEndpoint(Resource):
     
 api.add_namespace(chat_ns, path='/api')
 
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8080)

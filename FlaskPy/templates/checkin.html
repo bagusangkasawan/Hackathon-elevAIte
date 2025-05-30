@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentalMate - Kesehatan Mental</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <div id="loadingOverlay" class="loading-overlay d-none">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-custom sticky-top">
+        <div class="container">
+          <a class="navbar-brand" href="{{ url_for('index') }}">MentalMate</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Beranda</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}#fitur">Fitur</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}#manfaat">Manfaat</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}#chatbot">Chatbot</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('blog') }}">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('checkin') }}">Checkin</a>
+              </li>
+              <li class="nav-item d-none" id="logoutNavButtonContainer"> <button id="logoutButton" class="btn btn-outline-light ms-lg-2 mt-2 mt-lg-0">Logout</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid mt-4 p-3 p-md-4"> 
+        <div id="messageArea" class="mb-4"></div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                <section id="authSection" class="auth-card p-4 p-md-5">
+                    <div id="loginView">
+                        <h2 class="fs-2 fw-bold mb-4 text-center text-primary-custom">Login</h2>
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="loginUsername" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Username</label>
+                                <input type="text" id="loginUsername" name="username" required class="form-control themed-input">
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Password</label>
+                                <input type="password" id="loginPassword" name="password" required class="form-control themed-input">
+                            </div>
+                            <button type="submit" class="w-100 btn btn-primary-custom fw-semibold py-2 rounded">Login</button>
+                        </form>
+                        <p class="mt-4 text-center small">
+                            Belum punya akun? <button id="showRegisterButton" class="btn btn-link text-secondary-custom p-0 align-baseline fw-medium">Daftar di sini</button>
+                        </p>
+                    </div>
+
+                    <div id="registerView" class="d-none">
+                        <h2 class="fs-2 fw-bold mb-4 text-center text-primary-custom">Register</h2>
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label for="registerUsername" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Username</label>
+                                <input type="text" id="registerUsername" name="username" required class="form-control themed-input">
+                            </div>
+                            <div class="mb-4">
+                                <label for="registerPassword" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Password</label>
+                                <input type="password" id="registerPassword" name="password" required class="form-control themed-input">
+                            </div>
+                            <button type="submit" class="w-100 btn btn-secondary-custom fw-semibold py-2 rounded">Register</button>
+                        </form>
+                        <p class="mt-4 text-center small">
+                            Sudah punya akun? <button id="showLoginButton" class="btn btn-link text-secondary-custom p-0 align-baseline fw-medium">Login di sini</button>
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-10 col-lg-8">
+                <section id="appContentSection" class="d-none app-content-card p-4 p-md-5">
+                    <h2 class="fs-2 fw-bold mb-2 text-center text-primary-custom">Daily Check-in</h2>
+                    <p id="welcomeMessage" class="text-center mb-3" style="color: var(--dark-text);"></p>
+                    
+                    <div class="feature-description text-center mb-4">
+                        <p class="mb-1">Selamat datang di halaman Daily Check-in! Di sini Anda dapat:</p>
+                        <ul class="list-unstyled mb-0">
+                            <li>📝 Mencatat perasaan dan kondisi mental Anda setiap hari.</li>
+                            <li>💡 Mendapatkan rekomendasi aktivitas positif yang disesuaikan.</li>
+                            <li>📊 Melihat riwayat check-in Anda untuk memantau perkembangan.</li>
+                            <li>👤 Mengubah username atau password Anda.</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <button id="showEditProfileButton" class="btn btn-outline-primary-custom btn-sm">
+                            <i class="fas fa-user-edit me-1"></i> Edit Profil
+                        </button>
+                    </div>
+
+
+                    <div id="checkInFormView">
+                        <form id="checkInForm" class="mb-4">
+                            <div class="mb-3">
+                                <label for="mood" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Bagaimana perasaanmu hari ini?</label>
+                                <select id="mood" name="mood" required class="form-select themed-select">
+                                    <option value="baik">Baik 😊</option>
+                                    <option value="sedang">Sedang 😐</option>
+                                    <option value="buruk">Buruk 😟</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="form-label small fw-medium mb-1" style="color: var(--dark-text);">Ceritakan lebih lanjut (opsional):</label>
+                                <textarea id="description" name="description" rows="3" class="form-control themed-textarea"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success-custom fw-semibold py-2 rounded btn-checkin-submit">Kirim Check-in</button>
+                        </form>
+                    </div>
+                    
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mb-5">
+                        <button id="getRecommendationButton" class="btn btn-primary-custom fw-semibold py-2 rounded flex-sm-fill">Dapatkan Rekomendasi</button>
+                        <button id="getHistoryButton" class="btn btn-secondary-custom fw-semibold py-2 rounded flex-sm-fill">Riwayat Check-in</button>
+                    </div>
+                    
+                    <div id="editProfileView" class="d-none">
+                        <h3 class="fs-5 fw-semibold mb-3 text-primary-custom">Edit Profil</h3>
+                        <form id="editProfileForm">
+                            <div class="mb-3">
+                                <label for="editUsername" class="form-label small fw-medium">Username Baru</label>
+                                <input type="text" id="editUsername" class="form-control themed-input">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPassword" class="form-label small fw-medium">Password Baru</label>
+                                <input type="password" id="editPassword" class="form-control themed-input" placeholder="Kosongkan jika tidak ingin diubah">
+                                <div class="form-text small">Password baru harus berbeda dari password saat ini.</div>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" id="cancelEditProfileButton" class="btn btn-outline-secondary btn-sm">Batal</button>
+                                <button type="submit" class="btn btn-primary-custom btn-sm">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div id="recommendationView" class="d-none mt-4 recommendation-view">
+                        <h3 class="fs-5 fw-semibold mb-3 text-primary-custom">Rekomendasi Aktivitas</h3>
+                        <div id="recommendationText" style="color: var(--dark-text);"></div> 
+                    </div>
+
+                    <div id="historyView" class="d-none mt-4">
+                        <h3 class="fs-5 fw-semibold mb-3 text-primary-custom">Riwayat Check-in Anda</h3>
+                        <div id="historyList" class="d-grid gap-3"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto"> 
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <h3 class="mb-3">MentalMate</h3>
+              <p>Teman virtual untuk kesehatan mental yang lebih baik.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <p>© 2025 MentalMate. Hak Cipta Dilindungi.</p>
+              <p>Dibuat dengan <i class="fas fa-heart text-accent-custom"></i> untuk kesehatan mental yang lebih baik.</p>
+            </div>
+          </div>
+        </div>
+    </footer>
+
+    <div id="customModal" class="custom-modal d-none">
+        <div class="custom-modal-content">
+            <h3 id="modalTitle" class="fs-5 fw-bold mb-3">Pemberitahuan</h3>
+            <p id="modalMessage" class="mb-4" style="color: var(--dark-text);"></p>
+            <button id="modalCloseButton" class="w-100 btn btn-primary-custom fw-semibold py-2 rounded">Tutup</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // --- Konfigurasi API ---
+        const API_BASE_URL = 'https://hackathon-elevaite.vercel.app/api';
+
+        // --- Referensi Elemen DOM ---
+        const loadingOverlay = document.getElementById('loadingOverlay'); 
+        const authSection = document.getElementById('authSection');
+        const appContentSection = document.getElementById('appContentSection');
+        const loginView = document.getElementById('loginView');
+        const registerView = document.getElementById('registerView');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        const checkInFormView = document.getElementById('checkInFormView');
+        const checkInForm = document.getElementById('checkInForm');
+        const recommendationView = document.getElementById('recommendationView');
+        const recommendationText = document.getElementById('recommendationText'); 
+        const historyView = document.getElementById('historyView');
+        const historyList = document.getElementById('historyList');
+        
+        const logoutButton = document.getElementById('logoutButton'); 
+        const logoutNavButtonContainer = document.getElementById('logoutNavButtonContainer');
+
+        const showRegisterButton = document.getElementById('showRegisterButton');
+        const showLoginButton = document.getElementById('showLoginButton');
+        const getRecommendationButton = document.getElementById('getRecommendationButton');
+        const getHistoryButton = document.getElementById('getHistoryButton');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+
+        // Edit Profile Elements
+        const showEditProfileButton = document.getElementById('showEditProfileButton');
+        const editProfileView = document.getElementById('editProfileView');
+        const editProfileForm = document.getElementById('editProfileForm');
+        const editUsernameInput = document.getElementById('editUsername');
+        const editPasswordInput = document.getElementById('editPassword');
+        const cancelEditProfileButton = document.getElementById('cancelEditProfileButton');
+
+        const customModal = document.getElementById('customModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+
+        // --- State Aplikasi ---
+        let currentUserToken = null;
+        let currentUsername = null;
+
+        // --- Fungsi Loading ---
+        function showLoading() {
+            if (loadingOverlay) loadingOverlay.classList.remove('d-none');
+        }
+        function hideLoading() {
+            if (loadingOverlay) loadingOverlay.classList.add('d-none');
+        }
+
+        // --- Fungsi Utilitas ---
+        function showCustomModal(title, message, isError = false) {
+            if(modalTitle) modalTitle.textContent = title;
+            if(modalMessage) modalMessage.textContent = message; 
+            if(modalTitle) modalTitle.className = `fs-5 fw-bold mb-3 ${isError ? 'text-danger' : 'text-primary-custom'}`; 
+            if(customModal) customModal.classList.remove('d-none');
+        }
+        if (modalCloseButton) {
+            modalCloseButton.addEventListener('click', () => {
+                if(customModal) customModal.classList.add('d-none');
+            });
+        }
+        function displayMessage(message, type = 'success') {
+            showCustomModal(type === 'success' ? 'Sukses' : 'Error', message, type === 'error');
+        }
+
+        async function apiCall(endpoint, method = 'GET', body = null, requiresAuth = false) {
+            showLoading(); 
+            const headers = { 'Content-Type': 'application/json' };
+            if (requiresAuth && currentUserToken) {
+                headers['Authorization'] = `Bearer ${currentUserToken}`;
+            }
+            const config = { method, headers };
+            if (body) config.body = JSON.stringify(body);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ message: response.statusText }));
+                    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                }
+                return response.status === 204 ? null : await response.json();
+            } catch (error) {
+                console.error('API Call Error:', error);
+                displayMessage(`Error: ${error.message}`, 'error');
+                throw error; 
+            } finally {
+                hideLoading(); 
+            }
+        }
+
+        // --- Fungsi Tampilan UI ---
+        function updateUIForAuthState() {
+            const isLoggedIn = !!currentUserToken;
+            if(authSection) authSection.classList.toggle('d-none', isLoggedIn);
+            if(appContentSection) appContentSection.classList.toggle('d-none', !isLoggedIn);
+            if(logoutNavButtonContainer) logoutNavButtonContainer.classList.toggle('d-none', !isLoggedIn);
+            
+            if (isLoggedIn) {
+                if(welcomeMessage) welcomeMessage.textContent = `Selamat datang kembali, ${currentUsername}!`;
+                // Sembunyikan form edit profil secara default saat login/refresh
+                if(editProfileView) editProfileView.classList.add('d-none');
+                // Tampilkan form check-in dan tombol lainnya
+                if(checkInFormView) checkInFormView.classList.remove('d-none');
+                if(getRecommendationButton && getHistoryButton) {
+                    getRecommendationButton.parentElement.classList.remove('d-none');
+                }
+                if(showEditProfileButton) showEditProfileButton.classList.remove('d-none');
+
+            } else {
+                if(loginView) loginView.classList.remove('d-none');
+                if(registerView) registerView.classList.add('d-none');
+                if(welcomeMessage) welcomeMessage.textContent = '';
+            }
+        }
+
+        // --- Fungsi Autentikasi ---
+        if (showRegisterButton) {
+            showRegisterButton.addEventListener('click', () => {
+                if(loginView) loginView.classList.add('d-none');
+                if(registerView) registerView.classList.remove('d-none');
+            });
+        }
+        if (showLoginButton) {
+            showLoginButton.addEventListener('click', () => {
+                if(registerView) registerView.classList.add('d-none');
+                if(loginView) loginView.classList.remove('d-none');
+            });
+        }
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    await apiCall('/auth/register', 'POST', { username: e.target.username.value, password: e.target.password.value });
+                    displayMessage('Registrasi berhasil! Silakan login.');
+                    registerForm.reset();
+                    if (showLoginButton) showLoginButton.click(); 
+                } catch (error) { /* Ditangani di apiCall */ }
+            });
+        }
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    const data = await apiCall('/auth/login', 'POST', { username: e.target.username.value, password: e.target.password.value });
+                    if (data && data.token) {
+                        currentUserToken = data.token;
+                        currentUsername = e.target.username.value; 
+                        sessionStorage.setItem('authToken', currentUserToken);
+                        sessionStorage.setItem('username', currentUsername);
+                        updateUIForAuthState();
+                        displayMessage('Login berhasil!');
+                    }
+                } catch (error) { /* Ditangani di apiCall */ }
+            });
+        }
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                currentUserToken = null; currentUsername = null;
+                sessionStorage.removeItem('authToken'); sessionStorage.removeItem('username');
+                updateUIForAuthState();
+                displayMessage('Anda telah logout.');
+            });
+        }
+
+        // --- Fungsi Edit Profil ---
+        if (showEditProfileButton) {
+            showEditProfileButton.addEventListener('click', () => {
+                if(editProfileView) editProfileView.classList.remove('d-none');
+                if(editUsernameInput && currentUsername) editUsernameInput.value = currentUsername;
+                if(editPasswordInput) editPasswordInput.value = ''; // Kosongkan field password
+                // Sembunyikan form check-in dan tombol lainnya saat edit profil
+                if(checkInFormView) checkInFormView.classList.add('d-none');
+                if(getRecommendationButton && getHistoryButton) {
+                     getRecommendationButton.parentElement.classList.add('d-none');
+                }
+                if(recommendationView) recommendationView.classList.add('d-none');
+                if(historyView) historyView.classList.add('d-none');
+
+            });
+        }
+        if (cancelEditProfileButton) {
+            cancelEditProfileButton.addEventListener('click', () => {
+                if(editProfileView) editProfileView.classList.add('d-none');
+                 // Tampilkan kembali form check-in dan tombol lainnya
+                if(checkInFormView) checkInFormView.classList.remove('d-none');
+                if(getRecommendationButton && getHistoryButton) {
+                    getRecommendationButton.parentElement.classList.remove('d-none');
+                }
+            });
+        }
+        if (editProfileForm) {
+            editProfileForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const newUsername = editUsernameInput.value.trim();
+                const newPassword = editPasswordInput.value; // Jangan di-trim, password bisa ada spasi
+
+                if (!newUsername) {
+                    displayMessage('Username baru tidak boleh kosong.', 'error');
+                    return;
+                }
+
+                const body = { username: newUsername };
+                if (newPassword) { // Hanya tambahkan password ke body jika diisi
+                    body.password = newPassword;
+                }
+
+                try {
+                    const data = await apiCall('/auth/update-profile', 'PUT', body, true);
+                    if (data && data.user) {
+                        displayMessage(data.message || 'Profil berhasil diperbarui!');
+                        currentUsername = data.user.username; // Update username dari response
+                        sessionStorage.setItem('username', currentUsername);
+                        if(welcomeMessage) welcomeMessage.textContent = `Selamat datang kembali, ${currentUsername}!`;
+                        if(editProfileView) editProfileView.classList.add('d-none');
+                        // Tampilkan kembali form check-in dan tombol lainnya
+                        if(checkInFormView) checkInFormView.classList.remove('d-none');
+                        if(getRecommendationButton && getHistoryButton) {
+                             getRecommendationButton.parentElement.classList.remove('d-none');
+                        }
+                    } else {
+                         displayMessage(data.message || 'Gagal memperbarui profil.', 'error');
+                    }
+                } catch (error) {
+                    // Error sudah ditangani oleh apiCall, tapi bisa tambahkan logic spesifik jika perlu
+                    // Contoh: jika error.message spesifik dari API (misal "New password must be different...")
+                    // displayMessage(error.message, 'error'); 
+                }
+            });
+        }
+
+
+        // --- Fungsi Check-in ---
+        if (checkInForm) {
+            checkInForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    await apiCall('/checkin', 'POST', { mood: e.target.mood.value, description: e.target.description.value }, true);
+                    displayMessage('Check-in berhasil disimpan!');
+                    checkInForm.reset();
+                    fetchRecommendation(); 
+                    if(recommendationView) recommendationView.classList.remove('d-none');
+                    if(historyView) historyView.classList.add('d-none'); 
+                } catch (error) { /* Ditangani di apiCall */ }
+            });
+        }
+        if (getRecommendationButton) {
+            getRecommendationButton.addEventListener('click', async () => {
+                try {
+                    await fetchRecommendation(); 
+                    if (recommendationText && recommendationText.innerHTML !== '' && !recommendationText.textContent.includes('Gagal memuat') && !recommendationText.textContent.includes('Tidak ada rekomendasi') && !recommendationText.textContent.includes('Silakan login')) {
+                        if(recommendationView) recommendationView.classList.remove('d-none');
+                        if(historyView) historyView.classList.add('d-none');
+                    }
+                } catch (error) { /* Ditangani di apiCall */ }
+            });
+        }
+        async function fetchRecommendation() {
+            if (!currentUserToken) {
+                displayMessage('Anda harus login untuk mendapatkan rekomendasi.', 'error');
+                if(recommendationText) recommendationText.innerHTML = '<p>Silakan login terlebih dahulu.</p>'; 
+                return; 
+            }
+            try {
+                const data = await apiCall('/checkin/recommendation', 'GET', null, true);
+                if (data && data.recommendation) {
+                    if(recommendationText && typeof marked !== 'undefined') {
+                         recommendationText.innerHTML = marked.parse(data.recommendation);
+                    } else if (recommendationText) {
+                        recommendationText.textContent = data.recommendation; 
+                    }
+                } else {
+                    if(recommendationText) recommendationText.innerHTML = '<p>Tidak ada rekomendasi terbaru untuk Anda. Silakan lakukan check-in terlebih dahulu.</p>'; 
+                }
+            } catch (error) {
+                if(recommendationText) recommendationText.innerHTML = '<p class="text-danger">Gagal memuat rekomendasi.</p>'; 
+            }
+        }
+        if (getHistoryButton) {
+            getHistoryButton.addEventListener('click', async () => {
+                try {
+                    await fetchHistory(); 
+                    if (historyList && historyList.innerHTML !== '' && !historyList.textContent.includes('Gagal memuat') && !historyList.textContent.includes('Belum ada') && !historyList.textContent.includes('Silakan login')) {
+                        if(historyView) historyView.classList.remove('d-none');
+                        if(recommendationView) recommendationView.classList.add('d-none');
+                    }
+                } catch (error) { /* Ditangani di apiCall */ }
+            });
+        }
+        async function fetchHistory() {
+            if (!currentUserToken) {
+                displayMessage('Anda harus login untuk melihat riwayat.', 'error');
+                if(historyList) historyList.innerHTML = '<p style="color: var(--dark-text);">Silakan login terlebih dahulu.</p>';
+                return; 
+            }
+            try {
+                const data = await apiCall('/checkin', 'GET', null, true);
+                if(historyList) historyList.innerHTML = ''; 
+                if (data && data.length > 0) {
+                    data.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+                    data.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'history-item'; 
+                        const moodText = item.mood.charAt(0).toUpperCase() + item.mood.slice(1);
+                        let moodEmoji = '';
+                        if (item.mood === 'baik') moodEmoji = '😊';
+                        else if (item.mood === 'sedang') moodEmoji = '😐';
+                        else if (item.mood === 'buruk') moodEmoji = '😟';
+                        itemDiv.innerHTML = `
+                            <p class="fw-semibold mb-1" style="color: var(--dark-text);">Tanggal: <span class="fw-normal">${new Date(item.date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:'2-digit', minute:'2-digit' })}</span></p>
+                            <p class="fw-semibold mb-1" style="color: var(--dark-text);">Mood: <span class="fw-normal">${moodText} ${moodEmoji}</span></p>
+                            <p class="fw-semibold mb-0" style="color: var(--dark-text);">Deskripsi: <span class="fw-normal">${item.description || '-'}</span></p>
+                        `;
+                        if(historyList) historyList.appendChild(itemDiv);
+                    });
+                } else {
+                    if(historyList) historyList.innerHTML = '<p style="color: var(--dark-text);">Belum ada riwayat check-in.</p>';
+                }
+            } catch (error) {
+                 if(historyList) historyList.innerHTML = '<p class="text-danger">Gagal memuat riwayat check-in.</p>'; 
+            }
+        }
+
+        // --- Inisialisasi Aplikasi ---
+        window.addEventListener('DOMContentLoaded', () => {
+            currentUserToken = sessionStorage.getItem('authToken');
+            currentUsername = sessionStorage.getItem('username');
+            updateUIForAuthState();
+            const modalCloseBtn = document.getElementById('modalCloseButton');
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', () => {
+                    const customMod = document.getElementById('customModal');
+                    if (customMod) customMod.classList.add('d-none');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
