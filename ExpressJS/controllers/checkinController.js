@@ -14,6 +14,19 @@ const client = new AzureOpenAI(options);
 
 exports.checkin = async (req, res) => {
   const { mood, description } = req.body;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const existingCheckin = await Checkin.findOne({
+    userId: req.userId,
+    date: { $gte: today }
+  });
+
+  if (existingCheckin) {
+    return res.status(400).json({ message: 'Check-in already done for today' });
+  }
+
   const checkin = new Checkin({ userId: req.userId, mood, description });
   await checkin.save();
   res.json({ message: 'Check-in saved' });
