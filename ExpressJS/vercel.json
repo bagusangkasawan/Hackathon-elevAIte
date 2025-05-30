@@ -5,6 +5,7 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "app.js" },
-    { "src": "/api/docs", "dest": "swagger.js" }
+    { "src": "/docs", "dest": "/public/swagger.html" },
+    { "src": "/swagger.json", "dest": "/public/swagger.json" }
   ]
 }
