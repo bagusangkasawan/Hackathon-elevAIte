@@ -3,7 +3,7 @@ const swaggerUi = require('swagger-ui-express');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000/api';
+const SERVER_URL = process.env.SERVER_URL;
 
 const options = {
   definition: {
