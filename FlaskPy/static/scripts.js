@@ -369,6 +369,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function () {
+            this.blur();
+        });
+    });
+
     if (sections.length > 0 && (window.location.pathname === '/' || window.location.pathname.endsWith('index.html'))) {
         window.addEventListener("scroll", changeNavOnScroll);
     }
